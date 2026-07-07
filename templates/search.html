@@ -1,0 +1,61 @@
+{{define "content"}}
+<div class="space-y-4">
+    <h1 class="text-xl md:text-2xl font-bold">Résultats pour "{{.Query}}"</h1>
+
+    {{if .Results}}
+    <div class="bg-gray-900 rounded-xl border border-gray-800 p-4">
+        <p class="text-sm text-gray-400 mb-3">{{len .Results}} résultat(s)</p>
+        <div class="divide-y divide-gray-800">
+            {{range .Results}}
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between py-3 gap-2">
+                <div class="flex items-center gap-2 min-w-0">
+                    <span class="text-lg shrink-0">{{typeEmoji .Type}}</span>
+                    {{if eq .Type "image"}}<img src="/thumbnail/{{.ID}}" class="w-8 h-8 rounded object-cover shrink-0" loading="lazy">{{end}}
+                    <span class="truncate text-sm sm:text-base">{{.Name}}</span>
+                </div>
+                <div class="flex gap-2 shrink-0">
+                    <a href="/player/{{.ID}}" class="text-sm px-3 py-1.5 bg-indigo-600 rounded-lg hover:bg-indigo-500 transition text-center w-full sm:w-auto">▶ Lecture</a>
+                    <a href="/download/{{.ID}}" class="text-sm px-3 py-1.5 bg-gray-700 rounded-lg hover:bg-gray-600 transition text-center w-full sm:w-auto">⬇ Télécharger</a>
+                </div>
+            </div>
+            {{end}}
+        </div>
+    </div>
+    {{template "pagination" .}}
+    {{else}}
+    <div class="bg-gray-900 rounded-xl border border-gray-800 p-4 text-center text-gray-500">
+        Aucun résultat trouvé.
+    </div>
+    {{end}}
+</div>
+{{end}}
+
+{{define "search_content"}}
+<div class="space-y-4">
+    {{if .Results}}
+    <div class="bg-gray-900 rounded-xl border border-gray-800 p-4">
+        <p class="text-sm text-gray-400 mb-2">{{len .Results}} résultat(s)</p>
+        <div class="divide-y divide-gray-800 max-h-96 overflow-y-auto">
+            {{range .Results}}
+            <div class="flex items-center justify-between py-2 gap-2">
+                <div class="flex items-center gap-2 min-w-0">
+                    <span class="shrink-0">{{typeEmoji .Type}}</span>
+                    {{if eq .Type "image"}}<img src="/thumbnail/{{.ID}}" class="w-6 h-6 rounded object-cover shrink-0" loading="lazy">{{end}}
+                    <span class="truncate text-sm">{{.Name}}</span>
+                </div>
+                <div class="flex gap-2 shrink-0">
+                    <a href="/player/{{.ID}}" class="text-xs px-2 py-1 bg-indigo-600 rounded hover:bg-indigo-500 transition">▶</a>
+                    <a href="/download/{{.ID}}" class="text-xs px-2 py-1 bg-gray-700 rounded hover:bg-gray-600 transition">⬇</a>
+                </div>
+            </div>
+            {{end}}
+        </div>
+    </div>
+    {{template "pagination" .}}
+    {{else if .Query}}
+    <div class="bg-gray-900 rounded-xl border border-gray-800 p-3 text-center text-gray-500 text-sm">
+        Aucun résultat.
+    </div>
+    {{end}}
+</div>
+{{end}}

@@ -1,0 +1,27 @@
+{{define "pagination"}}
+{{if gt .Pagination.TotalPages 1}}
+<div class="flex items-center justify-center gap-4 pt-4">
+    {{if .Pagination.HasPrev}}
+    <a href="{{$.BaseURL}}&page={{.Pagination.PrevPage}}" 
+       class="px-4 py-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition text-sm"
+       hx-get="{{$.BaseURL}}&page={{.Pagination.PrevPage}}"
+       hx-target="#content-area"
+       hx-swap="innerHTML">&larr; Précédent</a>
+    {{else}}
+    <span class="px-4 py-2 bg-gray-900 rounded-lg text-sm text-gray-600">&larr; Précédent</span>
+    {{end}}
+
+    <span class="text-sm text-gray-400">Page {{.Pagination.CurrentPage}} / {{.Pagination.TotalPages}}</span>
+
+    {{if .Pagination.HasNext}}
+    <a href="{{$.BaseURL}}&page={{.Pagination.NextPage}}" 
+       class="px-4 py-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition text-sm"
+       hx-get="{{$.BaseURL}}&page={{.Pagination.NextPage}}"
+       hx-target="#content-area"
+       hx-swap="innerHTML">Suivant &rarr;</a>
+    {{else}}
+    <span class="px-4 py-2 bg-gray-900 rounded-lg text-sm text-gray-600">Suivant &rarr;</span>
+    {{end}}
+</div>
+{{end}}
+{{end}}

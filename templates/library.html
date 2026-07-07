@@ -1,0 +1,68 @@
+{{define "content"}}
+<div class="space-y-6">
+    <h1 class="text-xl md:text-2xl font-bold">Bibliothèque</h1>
+
+    <div class="flex flex-wrap gap-2">
+        <a href="/library" class="px-3 py-1.5 text-sm rounded bg-gray-800 hover:bg-gray-700 transition">Tout</a>
+        <a href="/library?type=video" class="px-3 py-1.5 text-sm rounded bg-gray-800 hover:bg-gray-700 transition">🎬 Films</a>
+        <a href="/library?type=audio" class="px-3 py-1.5 text-sm rounded bg-gray-800 hover:bg-gray-700 transition">🎵 Musiques</a>
+        <a href="/library?type=image" class="px-3 py-1.5 text-sm rounded bg-gray-800 hover:bg-gray-700 transition">📷 Photos</a>
+        <a href="/library?type=other" class="px-3 py-1.5 text-sm rounded bg-gray-800 hover:bg-gray-700 transition">📄 Documents</a>
+    </div>
+
+    {{if not .MediaType}}
+    <div class="bg-gray-900 rounded-xl border border-gray-800 p-4">
+        <h2 class="text-lg font-semibold mb-3">Dossiers</h2>
+        {{if .Roots}}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {{range .Roots}}
+            <a href="/browse/{{.ID}}" class="flex items-center gap-3 bg-gray-800 rounded-lg p-3 hover:bg-gray-700 transition">
+                <span class="text-2xl">📁</span>
+                <div class="min-w-0">
+                    <div class="font-medium truncate">{{.Name}}</div>
+                    <div class="text-sm text-gray-400">{{len .Files}} fichiers</div>
+                </div>
+            </a>
+            {{end}}
+        </div>
+        {{else}}
+        <p class="text-gray-500 text-sm">Aucun dossier. Ajoutez-en dans les paramètres.</p>
+        {{end}}
+    </div>
+    {{end}}
+
+    {{if .Files}}
+    <div class="bg-gray-900 rounded-xl border border-gray-800 p-4">
+        <h2 class="text-lg font-semibold mb-3">
+            {{if eq .MediaType "video"}}🎬 Films
+            {{else if eq .MediaType "audio"}}🎵 Musiques
+            {{else if eq .MediaType "image"}}📷 Photos
+            {{else if eq .MediaType "other"}}📄 Documents
+            {{else}}Tous les fichiers{{end}}
+            <span class="text-sm text-gray-400 font-normal">— {{.Pagination.Total}} fichier(s)</span>
+        </h2>
+        <div class="divide-y divide-gray-800">
+            {{range .Files}}
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between py-3 gap-2">
+                <div class="flex items-center gap-2 min-w-0">
+                    <span class="text-lg shrink-0">{{typeEmoji .Type}}</span>
+                    {{if eq .Type "image"}}<img src="/thumbnail/{{.ID}}" class="w-8 h-8 rounded object-cover shrink-0" loading="lazy">{{end}}
+                    <span class="truncate text-sm sm:text-base">{{.Name}}</span>
+                </div>
+                <div class="flex gap-2 shrink-0">
+                    <a href="/player/{{.ID}}" class="text-sm px-3 py-1.5 bg-indigo-600 rounded-lg hover:bg-indigo-500 transition text-center w-full sm:w-auto">▶ Lecture</a>
+                    <a href="/download/{{.ID}}" class="text-sm px-3 py-1.5 bg-gray-700 rounded-lg hover:bg-gray-600 transition text-center w-full sm:w-auto">⬇ Télécharger</a>
+                </div>
+            </div>
+            {{end}}
+        </div>
+    </div>
+
+    {{template "pagination" .}}
+    {{else if .MediaType}}
+    <div class="bg-gray-900 rounded-xl border border-gray-800 p-4">
+        <p class="text-gray-500">Aucun fichier de ce type.</p>
+    </div>
+    {{end}}
+</div>
+{{end}}

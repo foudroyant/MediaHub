@@ -1,0 +1,51 @@
+{{define "content"}}
+<div class="space-y-6">
+    <h1 class="text-xl md:text-2xl font-bold">Tableau de bord</h1>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        <a href="/library?type=video" class="bg-gray-900 rounded-xl p-4 border border-gray-800 hover:border-indigo-500 transition text-center">
+            <div class="text-3xl mb-1">🎬</div>
+            <div class="text-base md:text-lg font-semibold">Films</div>
+            <div class="text-xs md:text-sm text-gray-400">{{.Counts.video}} fichiers</div>
+        </a>
+        <a href="/library?type=audio" class="bg-gray-900 rounded-xl p-4 border border-gray-800 hover:border-indigo-500 transition text-center">
+            <div class="text-3xl mb-1">🎵</div>
+            <div class="text-base md:text-lg font-semibold">Musiques</div>
+            <div class="text-xs md:text-sm text-gray-400">{{.Counts.audio}} fichiers</div>
+        </a>
+        <a href="/library?type=image" class="bg-gray-900 rounded-xl p-4 border border-gray-800 hover:border-indigo-500 transition text-center">
+            <div class="text-3xl mb-1">📷</div>
+            <div class="text-base md:text-lg font-semibold">Photos</div>
+            <div class="text-xs md:text-sm text-gray-400">{{.Counts.image}} fichiers</div>
+        </a>
+        <a href="/library?type=other" class="bg-gray-900 rounded-xl p-4 border border-gray-800 hover:border-indigo-500 transition text-center">
+            <div class="text-3xl mb-1">📄</div>
+            <div class="text-base md:text-lg font-semibold">Documents</div>
+            <div class="text-xs md:text-sm text-gray-400">{{.Counts.other}} fichiers</div>
+        </a>
+    </div>
+
+    <div class="bg-gray-900 rounded-xl border border-gray-800 p-4">
+        <h2 class="text-lg font-semibold mb-3">Derniers fichiers ajoutés</h2>
+        {{if .Recent}}
+        <div class="divide-y divide-gray-800">
+            {{range .Recent}}
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between py-3 gap-2">
+                <div class="flex items-center gap-2 min-w-0">
+                    <span class="text-lg shrink-0">{{typeEmoji .Type}}</span>
+                    {{if eq .Type "image"}}<img src="/thumbnail/{{.ID}}" class="w-8 h-8 rounded object-cover shrink-0" loading="lazy">{{end}}
+                    <span class="truncate text-sm sm:text-base">{{.Name}}</span>
+                </div>
+                <div class="flex gap-2 shrink-0">
+                    <a href="/player/{{.ID}}" class="text-sm px-3 py-1.5 bg-indigo-600 rounded-lg hover:bg-indigo-500 transition text-center w-full sm:w-auto">▶ Lecture</a>
+                    <a href="/download/{{.ID}}" class="text-sm px-3 py-1.5 bg-gray-700 rounded-lg hover:bg-gray-600 transition text-center w-full sm:w-auto">⬇ Télécharger</a>
+                </div>
+            </div>
+            {{end}}
+        </div>
+        {{else}}
+        <p class="text-gray-500 text-sm">Aucun fichier. Ajoutez des dossiers dans les paramètres.</p>
+        {{end}}
+    </div>
+</div>
+{{end}}

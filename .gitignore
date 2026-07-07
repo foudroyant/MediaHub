@@ -1,0 +1,24 @@
+# MediaHub
+mediahub.exe
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+
+# Temp
+debug.log
+server_debug*.log
+server_out.log
+server_err.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

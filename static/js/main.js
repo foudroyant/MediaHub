@@ -1,0 +1,1 @@
+// MediaHub - JavaScript minimal

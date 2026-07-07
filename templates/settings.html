@@ -1,0 +1,48 @@
+{{define "content"}}
+<div class="space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <h1 class="text-xl md:text-2xl font-bold">Paramètres</h1>
+        <button hx-post="/scan" hx-swap="none" class="px-4 py-2 bg-indigo-600 rounded-lg hover:bg-indigo-500 transition text-sm w-full sm:w-auto">
+            Actualiser
+        </button>
+    </div>
+
+    <div class="bg-gray-900 rounded-xl border border-gray-800 p-4">
+        <h2 class="text-lg font-semibold mb-4">Dossiers surveillés</h2>
+
+        {{if .Folders}}
+        <div class="space-y-2 mb-4">
+            {{range .Folders}}
+            <div class="flex items-center justify-between bg-gray-800 rounded-lg px-4 py-3 gap-2">
+                <span class="truncate text-sm">{{.}}</span>
+                <button hx-delete="/settings/folder" 
+                        hx-vals='{{json . | printf "{\"path\":%s}"}}'
+                        hx-swap="none"
+                        hx-confirm="Supprimer ce dossier ?"
+                        class="text-red-400 hover:text-red-300 shrink-0">
+                    ✕
+                </button>
+            </div>
+            {{end}}
+        </div>
+        {{else}}
+        <p class="text-gray-500 text-sm mb-4">Aucun dossier surveillé.</p>
+        {{end}}
+
+        <form hx-post="/settings/folder" hx-swap="none" class="flex flex-col sm:flex-row gap-2">
+            <input type="text" 
+                   name="path" 
+                   placeholder="Chemin du dossier (ex: D:\Films)"
+                   class="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+            <button type="submit" class="px-4 py-2 bg-green-600 rounded-lg hover:bg-green-500 transition text-sm whitespace-nowrap w-full sm:w-auto">
+                + Ajouter
+            </button>
+        </form>
+    </div>
+
+    <div class="bg-gray-900 rounded-xl border border-gray-800 p-4 text-xs md:text-sm text-gray-400 space-y-1">
+        <p>MediaHub scanne les dossiers configurés et indexe les fichiers médias.</p>
+        <p>Utilisez le bouton "Actualiser" pour rescanner après avoir modifié les fichiers.</p>
+    </div>
+</div>
+{{end}}

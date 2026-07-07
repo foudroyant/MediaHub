@@ -1,0 +1,79 @@
+{{define "content"}}
+<div class="space-y-4">
+    <div class="flex items-center gap-3">
+        <a href="javascript:history.back()" class="text-gray-400 hover:text-gray-300">&larr; Retour</a>
+        <h1 class="text-lg md:text-xl font-bold truncate">{{.Media.Name}}</h1>
+    </div>
+
+    <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+        {{if eq .Media.Type "video"}}
+        <video controls autoplay class="w-full max-h-[80vh] bg-black" playsinline>
+            <source src="/stream/{{.Media.ID}}">
+        </video>
+
+        {{else if eq .Media.Type "audio"}}
+        <div class="p-6 md:p-8 text-center">
+            <div class="text-5xl md:text-6xl mb-4">🎵</div>
+            <p class="text-base md:text-lg font-semibold mb-4 truncate px-4">{{.Media.Name}}</p>
+            <audio controls autoplay class="w-full max-w-md mx-auto">
+                <source src="/stream/{{.Media.ID}}">
+            </audio>
+        </div>
+
+        {{else if eq .Media.Type "image"}}
+        <div class="p-2 md:p-4 text-center">
+            <img src="/stream/{{.Media.ID}}" alt="{{.Media.Name}}" class="max-w-full max-h-[80vh] mx-auto rounded">
+        </div>
+
+        {{else}}
+        <div class="p-8 text-center">
+            <div class="text-5xl md:text-6xl mb-4">📄</div>
+            <p class="text-base md:text-lg mb-4">{{.Media.Name}}</p>
+            <a href="/download/{{.Media.ID}}" class="inline-block px-4 py-2 bg-indigo-600 rounded-lg hover:bg-indigo-500 transition">
+                ⬇ Télécharger
+            </a>
+        </div>
+        {{end}}
+    </div>
+</div>
+{{end}}
+
+{{define "player_content"}}
+<div class="space-y-4" id="player-content">
+    <div class="flex items-center gap-3">
+        <button onclick="history.back()" class="text-gray-400 hover:text-gray-300">&larr; Retour</button>
+        <h1 class="text-lg md:text-xl font-bold truncate">{{.Media.Name}}</h1>
+    </div>
+
+    <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+        {{if eq .Media.Type "video"}}
+        <video controls autoplay class="w-full max-h-[80vh] bg-black" playsinline>
+            <source src="/stream/{{.Media.ID}}">
+        </video>
+
+        {{else if eq .Media.Type "audio"}}
+        <div class="p-6 md:p-8 text-center">
+            <div class="text-5xl md:text-6xl mb-4">🎵</div>
+            <p class="text-base md:text-lg font-semibold mb-4 truncate px-4">{{.Media.Name}}</p>
+            <audio controls autoplay class="w-full max-w-md mx-auto">
+                <source src="/stream/{{.Media.ID}}">
+            </audio>
+        </div>
+
+        {{else if eq .Media.Type "image"}}
+        <div class="p-2 md:p-4 text-center">
+            <img src="/stream/{{.Media.ID}}" alt="{{.Media.Name}}" class="max-w-full max-h-[80vh] mx-auto rounded">
+        </div>
+
+        {{else}}
+        <div class="p-8 text-center">
+            <div class="text-5xl md:text-6xl mb-4">📄</div>
+            <p class="text-base md:text-lg mb-4">{{.Media.Name}}</p>
+            <a href="/download/{{.Media.ID}}" class="inline-block px-4 py-2 bg-indigo-600 rounded-lg hover:bg-indigo-500 transition">
+                ⬇ Télécharger
+            </a>
+        </div>
+        {{end}}
+    </div>
+</div>
+{{end}}
